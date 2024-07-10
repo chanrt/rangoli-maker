@@ -1,6 +1,7 @@
 from math import cos, pi, sin
 import pygame as pg
 from settings import settings as s
+from text import Text
 
 
 class Grid:
@@ -10,6 +11,9 @@ class Grid:
         self.lines = []
         self.init_lines()
         self.spacing = 100
+
+        self.text = Text(200, 100, "[G]rid Toggle: None", s.screen)
+        self.text.set_font(s.small_font)
 
     def init_lines(self):
         self.lines = []
@@ -31,13 +35,13 @@ class Grid:
                 self.lines.append([(0, y), (s.screen_width, y)])
                 y += self.spacing * sin(pi / 3)
 
-            x = -10 * self.spacing
+            x = -20 * self.spacing
             while x < s.screen_width:
                 self.lines.append([(x, 0), (x + s.screen_width * cos(pi / 3), s.screen_width * sin(pi / 3))])
                 x += self.spacing
 
             x = 0
-            while x < s.screen_width + 10 * self.spacing:
+            while x < s.screen_width + 20 * self.spacing:
                 self.lines.append([(x, 0), (x + s.screen_width * cos(2 * pi / 3), s.screen_width * sin(2 * pi / 3))])
                 x += self.spacing
 
@@ -45,11 +49,26 @@ class Grid:
         self.grid_state = (self.grid_state + 1) % 3  
         self.init_lines()
 
+        if self.grid_state == 0:
+            self.text.set_text("[G]rid Toggle: None")
+        elif self.grid_state == 1:
+            self.text.set_text("[G]rid Toggle: Square")
+        elif self.grid_state == 2:
+            self.text.set_text("[G]rid Toggle: Hexagon")
+
     def modify_magnification(self, factor):
         self.spacing += factor
+
+        if self.spacing < 20:
+            self.spacing = 20
+        elif self.spacing > s.screen_width / 2:
+            self.spacing = s.screen_width / 2
+
         self.init_lines()
     
     def render(self):
+        self.text.render()
+
         if self.grid_state > 0:
             for line in self.lines:
                 start, end = line

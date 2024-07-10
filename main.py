@@ -1,5 +1,6 @@
 import pygame as pg
 
+from dots import Dots
 from grid import Grid
 from settings import settings as s
 from text import Text
@@ -12,12 +13,10 @@ def app_loop():
     s.init_screen(screen)
 
     grid = Grid()
-
-    big_font = pg.font.Font("assets/Wittgenstein-Medium.ttf", s.big_font_size)
-    small_font = pg.font.Font("assets/Wittgenstein-Medium.ttf", s.small_font_size)
+    dots = Dots()
 
     title_text = Text(s.screen_width // 2, s.big_font_size // 2, "Rangoli Art", s.screen)
-    title_text.set_font(big_font)
+    title_text.set_font(s.big_font)
     
     while True:
         for event in pg.event.get():
@@ -27,10 +26,26 @@ def app_loop():
                     return
                 if event.key == pg.K_g:
                     grid.toggle_state()
+                if event.key == pg.K_d:
+                    dots.toggle_state()
                 if event.key == pg.K_UP:
-                    grid.modify_magnification(-10)
-                if event.key == pg.K_DOWN:
                     grid.modify_magnification(10)
+                if event.key == pg.K_DOWN:
+                    grid.modify_magnification(-10)
+
+            if event.type == pg.MOUSEBUTTONUP:
+                if dots.dot_state:
+                    dots.modify(pg.mouse.get_pos(), event.button)
+
+            if event.type == pg.MOUSEMOTION:
+                if dots.dot_state:
+                    dots.show_tooltip(pg.mouse.get_pos())
+
+            if event.type == pg.MOUSEWHEEL:
+                if event.y > 0:
+                    grid.modify_magnification(10)
+                elif event.y < 0:
+                    grid.modify_magnification(-10)
             if event.type == pg.QUIT:
                 pg.quit()
                 return
@@ -38,8 +53,9 @@ def app_loop():
         screen.fill(s.bg_color)
 
         grid.render()
-        title_text.render()
+        dots.render()
 
+        title_text.render()
         pg.display.flip()
 
 
