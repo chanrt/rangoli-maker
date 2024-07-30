@@ -1,6 +1,7 @@
 import pygame as pg
 
 from dots import Dots
+from lines import Lines
 from grid import Grid
 from settings import settings as s
 from text import Text
@@ -14,6 +15,7 @@ def app_loop():
 
     grid = Grid()
     dots = Dots()
+    lines = Lines(dots)
 
     title_text = Text(s.screen_width // 2, s.big_font_size // 2, "Rangoli Art", s.screen)
     title_text.set_font(s.big_font)
@@ -26,20 +28,35 @@ def app_loop():
                     return
                 if event.key == pg.K_g:
                     grid.toggle_state()
+
                 if event.key == pg.K_d:
                     dots.toggle_state()
+                    if lines.state:
+                        lines.toggle_state()
+
+                if event.key == pg.K_l:
+                    lines.toggle_state()
+                    if dots.state:
+                        dots.toggle_state()
+
                 if event.key == pg.K_UP:
                     grid.modify_magnification(10)
                 if event.key == pg.K_DOWN:
                     grid.modify_magnification(-10)
 
-            if event.type == pg.MOUSEBUTTONUP:
-                if dots.dot_state:
-                    dots.modify(pg.mouse.get_pos(), event.button)
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if dots.state:
+                    status = dots.modify(pg.mouse.get_pos(), event.button)
+                    if status is not None:
+                        lines.communicate_deletion(status)
+                if lines.state:
+                    lines.modify(pg.mouse.get_pos(), event.button)
 
             if event.type == pg.MOUSEMOTION:
-                if dots.dot_state:
+                if dots.state:
                     dots.show_tooltip(pg.mouse.get_pos())
+                if lines.state:
+                    lines.show_tooltip(pg.mouse.get_pos())
 
             if event.type == pg.MOUSEWHEEL:
                 if event.y > 0:
@@ -54,6 +71,7 @@ def app_loop():
 
         grid.render()
         dots.render()
+        lines.render(pg.mouse.get_pos())
 
         title_text.render()
         pg.display.flip()

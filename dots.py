@@ -5,19 +5,19 @@ from text import Text
 
 class Dots:
     def __init__(self):
-        self.dot_state = 0
-        self.dots = [(800, 600)]
+        self.state = 0
+        self.dots = []
         self.tooltip = None
 
         self.text = Text(200, 200, "[D]ot Mode: Off", s.screen)
         self.text.set_font(s.small_font)
 
     def toggle_state(self):
-        self.dot_state = (self.dot_state + 1) % 2
+        self.state = (self.state + 1) % 2
 
-        if self.dot_state == 0:
+        if self.state == 0:
             self.text.set_text("[D]ot Mode: Off")
-        elif self.dot_state == 1:
+        elif self.state == 1:
             self.text.set_text("[D]ot Mode: On")
 
     def search_dot(self, coords):
@@ -36,6 +36,7 @@ class Dots:
         elif mouse_button == 3 and index != -1:
             self.dots.pop(index)
             self.tooltip = None
+            return index
 
     def show_tooltip(self, mouse_coords):
         index = self.search_dot(mouse_coords)
@@ -49,5 +50,5 @@ class Dots:
         for dot in self.dots:
             pg.draw.circle(s.screen, s.dot_color, dot, s.dot_radius)
 
-        if self.dot_state and self.tooltip is not None:
+        if self.state and self.tooltip is not None:
             pg.draw.circle(s.screen, s.dot_color, self.dots[self.tooltip], 2 * s.dot_radius, 1)

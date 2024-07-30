@@ -8,11 +8,15 @@ class Settings:
         # lengths
         self.grid_spacing = 100.0
         self.dot_radius = 5
+        self.line_thickness = 3
 
         # fonts
         self.bg_color = (1, 22, 39)
         self.grid_color = (115, 147, 179)
         self.dot_color = (255, 255, 255)
+        self.construct_color = (0, 0, 255)
+        self.destruct_color = (255, 0, 0)
+        self.line_color = (255, 255, 255)
 
         # colors
         self.big_font_size = 48
