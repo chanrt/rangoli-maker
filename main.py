@@ -29,6 +29,11 @@ def app_loop():
                     pg.quit()
                     return
                 
+                if event.key == pg.K_DELETE:
+                    dots = Dots()
+                    lines = Lines(dots)
+                    color = Color(dots, lines)
+                
                 # display toggles
                 if event.key == pg.K_g:
                     grid.toggle_state()

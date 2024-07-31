@@ -114,12 +114,14 @@ class Lines:
 
         for line in self.lines:
             start, end = line
-            pg.draw.aaline(s.screen, s.line_color, self.dots.dots[start], self.dots.dots[end], s.line_thickness)
+            if start < len(self.dots.dots) and end < len(self.dots.dots):
+                pg.draw.aaline(s.screen, s.line_color, self.dots.dots[start], self.dots.dots[end], s.line_thickness)
 
         if self.state and self.tooltip is not None:
-            pg.draw.circle(s.screen, s.dot_color, self.dots.dots[self.tooltip], 2 * s.dot_radius, 1)
+            if self.tooltip < len(self.dots.dots): 
+                pg.draw.circle(s.screen, s.dot_color, self.dots.dots[self.tooltip], 2 * s.dot_radius, 1)
 
-        if self.draw_state != 0:
+        if self.draw_state != 0 and self.dot1 < len(self.dots.dots):
             if self.draw_state == 1:
                 color = s.construct_color
                 pg.draw.aaline(s.screen, s.line_color, self.dots.dots[self.dot1], mouse_coords, s.line_thickness)

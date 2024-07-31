@@ -60,4 +60,5 @@ class Dots:
             pg.draw.circle(s.screen, s.dot_color, dot, s.dot_radius)
 
         if self.state and self.tooltip is not None:
-            pg.draw.circle(s.screen, s.dot_color, self.dots[self.tooltip], 2 * s.dot_radius, 1)
+            if self.tooltip < len(self.dots):
+                pg.draw.circle(s.screen, s.dot_color, self.dots[self.tooltip], 2 * s.dot_radius, 1)
