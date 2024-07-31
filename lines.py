@@ -68,7 +68,7 @@ class Lines:
                 self.dot2 = index
                 line_index = self.search_line(self.dot1, self.dot2)
 
-                if line_index == -1:
+                if line_index == -1 and self.dot1 != self.dot2:
                     self.lines.append([self.dot1, self.dot2])
                     self.dot1 = self.dot2
                     return True

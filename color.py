@@ -9,7 +9,7 @@ class Color:
         self.state = 0
         self.dots = dots
         self.lines = lines
-        self.fill_color = (0, 255, 255)
+        self.fill_color_index = 0
 
         self.maze = [[0 for _ in range(s.screen_height)] for _ in range(s.screen_width)]
         self.canvas = [[s.bg_color_map for _ in range(s.screen_height)] for _ in range(s.screen_width)]
@@ -39,10 +39,21 @@ class Color:
         #         print(self.maze[col][row], end=" ")
         #     print("")
 
-    def modify(self, mouse_pos):
+    def modify(self, mouse_pos, mouse_button):
+        mouse_x, mouse_y = mouse_pos
+        if mouse_y > s.start_y:
+            index = (mouse_x - s.start_x) // (s.rect_length + s.gap)
+            if 0 <= index < s.num_colors:
+                self.fill_color_index = index
+            return
+
         stack = [mouse_pos]
         visited = [[False for _ in range(s.screen_height)] for _ in range(s.screen_width)]
-        mapped_color = s.screen.map_rgb(self.fill_color)
+
+        if mouse_button == 1:
+            mapped_color = s.screen.map_rgb(s.colors[self.fill_color_index])
+        elif mouse_button == 3:
+            mapped_color = s.bg_color_map
 
         while len(stack) > 0:
             pixel = stack.pop()
@@ -71,15 +82,21 @@ class Color:
             self.text.set_text("[C]olor Mode: On")
 
     def render(self):        
-        # pixel_array = pg.PixelArray(s.screen)
-        # for row in range(s.screen_height):
-        #     for col in range(s.screen_width):
-        #         pixel_array[col, row] = self.canvas[col][row]
-        # pixel_array.close()
-
         pixel_array = pg.PixelArray(s.screen)
         for col in range(s.screen_width):
             pixel_array[col] = self.canvas[col]
         pixel_array.close()
 
         self.text.render()
+
+        if self.state:
+            pg.draw.line(s.screen, (255, 255, 255), (0, s.start_y - s.gap), (s.screen_width, s.start_y - s.gap))
+
+            x, y = s.start_x, s.start_y
+            for i in range(s.num_colors):
+                pg.draw.rect(s.screen, s.colors[i], (x, y, s.rect_length, s.rect_length))
+                x += s.rect_length + s.gap
+
+            x = s.start_x + self.fill_color_index * (s.rect_length + s.gap) - 2
+            y = s.start_y - 2
+            pg.draw.rect(s.screen, (255, 255, 255), (x, y, s.rect_length + 4, s.rect_length + 4), 2)

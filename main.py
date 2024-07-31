@@ -72,7 +72,7 @@ def app_loop():
                     if status is not None:
                         color.fabricate()
                 if color.state:
-                    color.modify(pg.mouse.get_pos())
+                    color.modify(pg.mouse.get_pos(), event.button)
 
             if event.type == pg.MOUSEMOTION:
                 if dots.state:
