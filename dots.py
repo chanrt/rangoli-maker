@@ -6,6 +6,7 @@ from text import Text
 class Dots:
     def __init__(self):
         self.state = 0
+        self.display_state = 1
         self.dots = []
         self.tooltip = None
 
@@ -19,6 +20,9 @@ class Dots:
             self.text.set_text("[D]ot Mode: Off")
         elif self.state == 1:
             self.text.set_text("[D]ot Mode: On")
+
+    def toggle_display_state(self):
+        self.display_state = (self.display_state + 1) % 2
 
     def search_dot(self, coords):
         index = -1
@@ -37,6 +41,7 @@ class Dots:
             self.dots.pop(index)
             self.tooltip = None
             return index
+        return None
 
     def show_tooltip(self, mouse_coords):
         index = self.search_dot(mouse_coords)
@@ -47,6 +52,10 @@ class Dots:
 
     def render(self):
         self.text.render()
+
+        if not self.display_state:
+            return
+        
         for dot in self.dots:
             pg.draw.circle(s.screen, s.dot_color, dot, s.dot_radius)
 

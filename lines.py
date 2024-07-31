@@ -6,6 +6,7 @@ from text import Text
 class Lines:
     def __init__(self, dots):
         self.state = 0
+        self.display_state = 1
         self.draw_state = 0
         self.dot1 = None
 
@@ -30,8 +31,12 @@ class Lines:
 
         if self.state == 0:
             self.text.set_text("[L]ine Mode: Off")
+            self.reset_state()
         elif self.state == 1:
             self.text.set_text("[L]ine Mode: On")
+
+    def toggle_display_state(self):
+        self.display_state = (self.display_state + 1) % 2
 
     def show_tooltip(self, mouse_coords):
         index = self.dots.search_dot(mouse_coords)
@@ -65,9 +70,8 @@ class Lines:
 
                 if line_index == -1:
                     self.lines.append([self.dot1, self.dot2])
-
-                # continue line drawing
-                self.dot1 = self.dot2
+                    self.dot1 = self.dot2
+                    return True
             else:
                 # stop new line construction
                 self.reset_state()
@@ -80,9 +84,11 @@ class Lines:
                 if line_index != -1:
                     self.lines.pop(line_index)
                     self.reset_state()
+                    return True
             else:
                 # stop line deletion
                 self.reset_state()
+        return None
 
     def reset_state(self):
         self.dot1 = None
@@ -102,6 +108,9 @@ class Lines:
 
     def render(self, mouse_coords):
         self.text.render()
+
+        if not self.display_state:
+            return
 
         for line in self.lines:
             start, end = line

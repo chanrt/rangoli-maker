@@ -28,6 +28,7 @@ class Settings:
     def init_screen(self, screen):
         self.screen = screen
         self.screen_width, self.screen_height = screen.get_size()
+        self.bg_color_map = self.screen.map_rgb(self.bg_color)
 
 
 settings = Settings()

@@ -1,5 +1,6 @@
 import pygame as pg
 
+from color import Color
 from dots import Dots
 from lines import Lines
 from grid import Grid
@@ -16,6 +17,7 @@ def app_loop():
     grid = Grid()
     dots = Dots()
     lines = Lines(dots)
+    color = Color(dots, lines)
 
     title_text = Text(s.screen_width // 2, s.big_font_size // 2, "Rangoli Art", s.screen)
     title_text.set_font(s.big_font)
@@ -26,18 +28,34 @@ def app_loop():
                 if event.key == pg.K_ESCAPE:
                     pg.quit()
                     return
+                
+                # display toggles
                 if event.key == pg.K_g:
                     grid.toggle_state()
+                if event.key == pg.K_PERIOD:
+                    dots.toggle_display_state()
+                if event.key == pg.K_SLASH:
+                    lines.toggle_display_state()
 
-                if event.key == pg.K_d:
-                    dots.toggle_state()
+                # draw state toggles
+                if event.key == pg.K_c:
+                    color.toggle_state()
+                    if dots.state:
+                        dots.toggle_state()
                     if lines.state:
                         lines.toggle_state()
-
+                if event.key == pg.K_d:
+                    dots.toggle_state()
+                    if color.state:
+                        color.toggle_state()
+                    if lines.state:
+                        lines.toggle_state()
                 if event.key == pg.K_l:
                     lines.toggle_state()
                     if dots.state:
                         dots.toggle_state()
+                    if color.state:
+                        color.toggle_state()
 
                 if event.key == pg.K_UP:
                     grid.modify_magnification(10)
@@ -50,7 +68,11 @@ def app_loop():
                     if status is not None:
                         lines.communicate_deletion(status)
                 if lines.state:
-                    lines.modify(pg.mouse.get_pos(), event.button)
+                    status = lines.modify(pg.mouse.get_pos(), event.button)
+                    if status is not None:
+                        color.fabricate()
+                if color.state:
+                    color.modify(pg.mouse.get_pos())
 
             if event.type == pg.MOUSEMOTION:
                 if dots.state:
@@ -63,12 +85,14 @@ def app_loop():
                     grid.modify_magnification(10)
                 elif event.y < 0:
                     grid.modify_magnification(-10)
+
             if event.type == pg.QUIT:
                 pg.quit()
                 return
-        
+
         screen.fill(s.bg_color)
 
+        color.render()
         grid.render()
         dots.render()
         lines.render(pg.mouse.get_pos())
