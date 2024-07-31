@@ -17,7 +17,6 @@ class Settings:
         self.construct_color = (0, 0, 255)
         self.destruct_color = (255, 0, 0)
         self.line_color = (255, 255, 255)
-        
 
         # colors
         self.big_font_size = 48

@@ -2,6 +2,7 @@ import pygame as pg
 
 from color import Color
 from dots import Dots
+from dot_factory import DotFactory
 from lines import Lines
 from grid import Grid
 from settings import settings as s
@@ -18,6 +19,9 @@ def app_loop():
     dots = Dots()
     lines = Lines(dots)
     color = Color(dots, lines)
+
+    dot_factory = DotFactory(dots)
+    dot_factory.square_pattern(10, s.screen_height / 14)
 
     title_text = Text(s.screen_width // 2, s.big_font_size // 2, "Rangoli Art", s.screen)
     title_text.set_font(s.big_font)
