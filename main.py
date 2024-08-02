@@ -66,10 +66,10 @@ def app_loop():
                 if event.key == pg.K_s:
                     symmetry.toggle_state()
 
-                # initialize square grid
-                if grid.grid_state == 1 and pg.K_1 <= event.key <= pg.K_9:
+                # initialize square/hexagon grid
+                if grid.grid_state > 0 and pg.K_0 <= event.key <= pg.K_9:
                     number = event.key - pg.K_0
-                    if 1 <= number <= 5:
+                    if number <= 5:
                         number += 10
 
                     dots = Dots()
@@ -78,7 +78,10 @@ def app_loop():
                     symmetry = Symmetry(dots, lines, color)
 
                     dot_factory = DotFactory(dots)
-                    dot_factory.square_pattern(number, s.screen_height / (number + 2))
+                    if grid.grid_state == 1:
+                        dot_factory.square_pattern(number, s.screen_height / (number + 2))
+                    elif grid.grid_state == 2:
+                        dot_factory.hexagon_pattern(number, s.screen_height / (2 * number + 1))
                     symmetry.calc_com()
 
                 # draw state toggles
@@ -111,6 +114,7 @@ def app_loop():
             if event.type == pg.MOUSEBUTTONDOWN:
                 if dots.state:
                     status = dots.modify(pg.mouse.get_pos(), event.button)
+                    symmetry.calc_com()
                     if status is not None:
                         index, exists = status
                         if not exists:
