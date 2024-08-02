@@ -69,9 +69,10 @@ class Lines:
                 line_index = self.search_line(self.dot1, self.dot2)
 
                 if line_index == -1 and self.dot1 != self.dot2:
-                    self.lines.append([self.dot1, self.dot2])
+                    new_line = [self.dot1, self.dot2]
+                    self.lines.append(new_line)
                     self.dot1 = self.dot2
-                    return True
+                    return new_line
             else:
                 # stop new line construction
                 self.reset_state()
@@ -82,9 +83,9 @@ class Lines:
                 line_index = self.search_line(self.dot1, self.dot2)
 
                 if line_index != -1:
-                    self.lines.pop(line_index)
+                    deleted_line = self.lines.pop(line_index)
                     self.reset_state()
-                    return True
+                    return deleted_line
             else:
                 # stop line deletion
                 self.reset_state()

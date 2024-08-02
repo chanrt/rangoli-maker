@@ -6,6 +6,7 @@ from dot_factory import DotFactory
 from lines import Lines
 from grid import Grid
 from settings import settings as s
+from symmetry import Symmetry
 from text import Text
 
 
@@ -19,6 +20,7 @@ def app_loop():
     dots = Dots()
     lines = Lines(dots)
     color = Color(dots, lines)
+    symmetry = Symmetry(dots, lines, color)
 
     title_text = Text(s.screen_width // 2, s.big_font_size // 2, "Rangoli Art", s.screen)
     title_text.set_font(s.big_font)
@@ -34,6 +36,7 @@ def app_loop():
                     dots = Dots()
                     lines = Lines(dots)
                     color = Color(dots, lines)
+                    symmetry = Symmetry(dots, lines, color)
                 
                 # display toggles
                 if event.key == pg.K_g:
@@ -42,7 +45,10 @@ def app_loop():
                     dots.toggle_display_state()
                 if event.key == pg.K_SLASH:
                     lines.toggle_display_state()
+                if event.key == pg.K_s:
+                    symmetry.toggle_state()
 
+                # initialize square grid
                 if grid.grid_state == 1 and pg.K_1 <= event.key <= pg.K_9:
                     number = event.key - pg.K_0
                     if 1 <= number <= 5:
@@ -51,9 +57,11 @@ def app_loop():
                     dots = Dots()
                     lines = Lines(dots)
                     color = Color(dots, lines)
+                    symmetry = Symmetry(dots, lines, color)
 
                     dot_factory = DotFactory(dots)
                     dot_factory.square_pattern(number, s.screen_height / (number + 2))
+                    symmetry.calc_com()
 
                 # draw state toggles
                 if event.key == pg.K_c:
@@ -83,12 +91,14 @@ def app_loop():
             if event.type == pg.MOUSEBUTTONDOWN:
                 if dots.state:
                     status = dots.modify(pg.mouse.get_pos(), event.button)
+                    symmetry.calc_com()
                     if status is not None:
                         lines.communicate_deletion(status)
                 if lines.state:
                     status = lines.modify(pg.mouse.get_pos(), event.button)
                     if status is not None:
                         color.fabricate()
+                        symmetry.consider(status)
                 if color.state:
                     color.modify(pg.mouse.get_pos(), event.button)
 
@@ -112,6 +122,7 @@ def app_loop():
 
         color.render()
         grid.render()
+        symmetry.render()
         dots.render()
         lines.render(pg.mouse.get_pos())
 
