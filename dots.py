@@ -52,6 +52,16 @@ class Dots:
         else:
             self.tooltip = None
 
+    def get_bounds(self):
+        x_min = min([dot[0] for dot in self.dots])
+        x_max = max([dot[0] for dot in self.dots])
+        y_min = min([dot[1] for dot in self.dots])
+        y_max = max([dot[1] for dot in self.dots])
+
+        width = x_max - x_min
+        height = y_max - y_min
+        return x_min, y_min, width, height
+
     def render(self):
         self.text.render()
 

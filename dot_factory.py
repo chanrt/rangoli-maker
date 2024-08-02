@@ -22,3 +22,5 @@ class DotFactory:
                 x = int(start_x + col * spacing)
                 y = int(start_y + row * spacing)
                 self.dots.dots.append((x, y))
+
+    # need to write code for hexagon

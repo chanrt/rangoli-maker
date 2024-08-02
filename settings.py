@@ -10,14 +10,16 @@ class Settings:
         self.dot_radius = 5
         self.line_thickness = 3
         self.tooltip_thickness = 2
+        self.margin = 20
 
         # fonts
         self.bg_color = (1, 22, 39)
         self.grid_color = (115, 147, 179)
         self.dot_color = (255, 255, 255)
-        self.construct_color = (0, 0, 255)
-        self.destruct_color = (255, 0, 0)
+        self.construct_color = (31, 81, 255)
+        self.destruct_color = (255, 49, 49)
         self.line_color = (255, 255, 255)
+        self.symmetry_color = (83, 83, 83)
 
         # colors
         self.big_font_size = 48

@@ -37,11 +37,6 @@ class Color:
                 x, y = int(x1 + i * dx), int(y1 + i * dy)
                 self.maze[x][y] = 1
 
-        # for row in range(s.screen_height):
-        #     for col in range(s.screen_width):
-        #         print(self.maze[col][row], end=" ")
-        #     print("")
-
     def modify(self, mouse_pos, mouse_button):
         mouse_x, mouse_y = mouse_pos
         if mouse_y > s.start_y:
