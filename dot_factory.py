@@ -6,6 +6,8 @@ class DotFactory:
         self.dots = dots
 
     def square_pattern(self, length, spacing, center_x=None, center_y=None):
+        self.dots.dots = []
+        
         if center_x is None:
             center_x = s.screen_width // 2
         if center_y is None:

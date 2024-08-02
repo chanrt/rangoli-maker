@@ -20,9 +20,6 @@ def app_loop():
     lines = Lines(dots)
     color = Color(dots, lines)
 
-    dot_factory = DotFactory(dots)
-    dot_factory.square_pattern(10, s.screen_height / 14)
-
     title_text = Text(s.screen_width // 2, s.big_font_size // 2, "Rangoli Art", s.screen)
     title_text.set_font(s.big_font)
     
@@ -45,6 +42,18 @@ def app_loop():
                     dots.toggle_display_state()
                 if event.key == pg.K_SLASH:
                     lines.toggle_display_state()
+
+                if grid.grid_state == 1 and pg.K_1 <= event.key <= pg.K_9:
+                    number = event.key - pg.K_0
+                    if 1 <= number <= 5:
+                        number += 10
+
+                    dots = Dots()
+                    lines = Lines(dots)
+                    color = Color(dots, lines)
+
+                    dot_factory = DotFactory(dots)
+                    dot_factory.square_pattern(number, s.screen_height / (number + 2))
 
                 # draw state toggles
                 if event.key == pg.K_c:

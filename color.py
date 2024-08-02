@@ -1,4 +1,3 @@
-from copy import deepcopy
 import pygame as pg
 from settings import settings as s
 from text import Text
