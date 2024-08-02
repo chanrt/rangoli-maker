@@ -9,6 +9,7 @@ class Settings:
         self.grid_spacing = 100.0
         self.dot_radius = 5
         self.line_thickness = 3
+        self.tooltip_thickness = 2
 
         # fonts
         self.bg_color = (1, 22, 39)

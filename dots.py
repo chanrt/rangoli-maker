@@ -37,10 +37,12 @@ class Dots:
         index = self.search_dot(mouse_coords)
         if mouse_button == 1 and index == -1:
             self.dots.append(mouse_coords)
+            return len(self.dots) - 1, True
         elif mouse_button == 3 and index != -1:
             self.dots.pop(index)
             self.tooltip = None
-            return index
+            return index, False
+        
         return None
 
     def show_tooltip(self, mouse_coords):
@@ -61,4 +63,4 @@ class Dots:
 
         if self.state and self.tooltip is not None:
             if self.tooltip < len(self.dots):
-                pg.draw.circle(s.screen, s.dot_color, self.dots[self.tooltip], 2 * s.dot_radius, 1)
+                pg.draw.circle(s.screen, s.dot_color, self.dots[self.tooltip], 2 * s.dot_radius, s.tooltip_thickness)

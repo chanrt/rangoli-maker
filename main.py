@@ -91,14 +91,19 @@ def app_loop():
             if event.type == pg.MOUSEBUTTONDOWN:
                 if dots.state:
                     status = dots.modify(pg.mouse.get_pos(), event.button)
-                    symmetry.calc_com()
                     if status is not None:
-                        lines.communicate_deletion(status)
+                        index, exists = status
+                        if not exists:
+                            lines.communicate_deletion(index)
+                        else:
+                            symmetry.consider_dot(index)
+                            
                 if lines.state:
                     status = lines.modify(pg.mouse.get_pos(), event.button)
                     if status is not None:
                         color.fabricate()
-                        symmetry.consider(status)
+                        symmetry.consider_line(status)
+
                 if color.state:
                     color.modify(pg.mouse.get_pos(), event.button)
 

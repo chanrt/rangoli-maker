@@ -120,7 +120,7 @@ class Lines:
 
         if self.state and self.tooltip is not None:
             if self.tooltip < len(self.dots.dots): 
-                pg.draw.circle(s.screen, s.dot_color, self.dots.dots[self.tooltip], 2 * s.dot_radius, 1)
+                pg.draw.circle(s.screen, s.dot_color, self.dots.dots[self.tooltip], 2 * s.dot_radius, s.tooltip_thickness)
 
         if self.draw_state != 0 and self.dot1 < len(self.dots.dots):
             if self.draw_state == 1:
@@ -129,4 +129,4 @@ class Lines:
             elif self.draw_state == -1:
                 color = s.destruct_color
 
-            pg.draw.circle(s.screen, color, self.dots.dots[self.dot1], 2 * s.dot_radius, 1)
+            pg.draw.circle(s.screen, color, self.dots.dots[self.dot1], 2 * s.dot_radius, s.tooltip_thickness)

@@ -27,6 +27,10 @@ class Color:
             x2, y2 = self.dots.dots[dot2]
             x_range, y_range = abs(x1 - x2), abs(y1 - y2)
             num_points = max(x_range, y_range)
+
+            if num_points == 0:
+                continue
+
             dx, dy = (x2 - x1) / num_points, (y2 - y1) / num_points
 
             for i in range(num_points + 1):
