@@ -27,4 +27,4 @@ Some designs created using this software:
 
 ![alt_text](https://i.ibb.co/86cqxXC/20240803-135349.png)
 
-![alt_text]("https://i.ibb.co/x5xQGKt/20240803-135832.png)
+![alt_text](https://i.ibb.co/x5xQGKt/20240803-135832.png)
