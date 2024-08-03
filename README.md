@@ -17,3 +17,14 @@ Controls:
 Notes:
  1) Various display parameters can be adjusted in the settings script
  2) Additional colors can be added to the color palette in the `init_color_palette()` function
+
+Some designs created using this software:
+![alt_text](https://i.ibb.co/ZxjCCBn/20240803-003355.png)
+
+![alt_text](https://i.ibb.co/Nj1gbCg/20240803-003737.png)
+
+![alt_text](https://i.ibb.co/y8pMv1H/20240803-004606.png)
+
+![alt_text](https://i.ibb.co/86cqxXC/20240803-135349.png)
+
+![alt_text]("https://i.ibb.co/x5xQGKt/20240803-135832.png)
