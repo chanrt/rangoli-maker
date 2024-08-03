@@ -38,7 +38,7 @@ class Symmetry:
         else:
             self.text.set_text("[S]ymmetry: C6")
             self.angle = pi / 3
-            self.num_rotations = 4
+            self.num_rotations = 5
 
     def calc_com(self):
         num_dots = len(self.dots.dots)
